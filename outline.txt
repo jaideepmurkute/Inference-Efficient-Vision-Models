@@ -1,0 +1,124 @@
+This project focuses on making large computer-vision models practical for real-world deployment by studying inference efficiency in a defect-screening setting. Using pretrained vision models as strong baselines, the project systematically applies knowledge distillation and quantization and pruning to reduce latency, memory footprint, and inference cost and other efficiency metrics, while preserving core task performance metric (recall-critical?). The emphasis is on comparative evaluation under realistic hardware constraints, analyzing accuracy–efficiency tradeoffs and identifying when model compression techniques are effective or begin to degrade task performance; pareto frontier etc..
+
+# ----------------
+
+Our goal to undertake a project:
+
+Build practical expertise in making large vision models deployable by studying accuracy–latency–cost tradeoffs under real inference constraints.
+Latest techniques applicable across domains/problem statements/companies: distillations, quantization, pruning, etc.
+
+# ----------------
+
+Project Topic:
+Hardware-Aware Efficient Inference for Defect Screening Vision Models.
+
+# ----------------
+
+Project Goal:
+Systematically reduce inference latency/ model size/compute/memory needs of pretrained defect-screening classifiers using distillation and quantization, while preserving recall-critical performance.
+
+# ----------------
+
+Dataset:
+MVTec AD (Primary)
+NEU-DET (Metal surface defects)
+DAGM 2007 Backup (if needed)
+
+# ----------------
+
+Teacher Model (frozen):
+ViT-Base (ViT-B/16) (Primary); 
+ConvNeXt-Base (CNN Alternative)
+(If needed: EfficientNet-B7)
+
+# ----------------
+
+Student model:
+ViT-Base -> ViT-Small or ViT-Tiny or MobileViT-S (deployment friendly); 
+ConvNeXt-Base -> ConvNeXt-Tiny or ConvNeXt-Small
+(If needed: EfficientNet-B7 -> EfficientNet-B0)
+ViT-Base → EfficientNet-B0 (Cross architecture experiment)
+
+# ----------------
+
+Metrics to Track:
+Task specific metrics: Recall (Defect class) - Primary, Precision, F1 Score, False Negative Rate (critical in QA)
+Efficiency / Deployment Metrics: Track all of these: Inference latency (ms / image), Throughput (images/sec), Model size (MB), Peak memory usage, Relative cost proxy (e.g., latency × batch volume)
+
+# ----------------
+
+Measure on: CPU (mandatory), GPU (if available)
+
+# ----------------
+
+Optimization Techniques to Implement:
+Knowledge Distillation (KD) -> Post-Training Quantization (PTQ) -> Pruning
+
+Post-Training Quantization (PTQ): Train model in FP32 as usual & Quantize after training.
+Quantization-Aware Training (QAT): Simulate quantization during training; Model learns to be robust to INT8. Use only if PTQ hurts too much.
+	During the forward pass, fake quantization is applied: weights and activations are clipped, scaled, and rounded to simulate INT8.
+	During backpropagation: gradients flow through these operations using straight-through estimators. The model adapts its weights to minimize loss under quantized constraints
+
+# ----------------
+
+Libraries & Tooling:
+
+PyTorch
+Models: timm or others.
+
+KD:
+Write custom distillation loops and training logging code etc.
+KL loss etc. can also be written from scratch.
+
+Post-Training Quantization (PTQ):
+Primary (recommended): PyTorch Native Quantization, torch.ao.quantization. Supports PTQ and QAT, Resume-safe, industry-standard, Works well for CNNs; ViT sensitivity is part of the story.
+Optional / Advanced:
+	ONNX Runtime INT8: Good for deployment benchmarking
+	TensorRT: Only if NVIDIA GPU is available
+
+Pruning:
+Primary: Torch-Pruning. Structured pruning (channels/blocks): Actively maintained, Clean API.
+Alternative: PyTorch torch.nn.utils.prune. More manual, less ergonomic.
+
+# ----------------
+
+Evaluation Protocol:
+Fixed validation subset
+Same data across: FP32 teacher, Quantized teacher, Student (no KD), Student (with KD).
+
+
+Compare deltas among models/configs being compared, not absolutes. Just ensure to have competitive enough baselines.
+
+# ----------------
+
+What NOT to do (explicitly)
+Train teacher from scratch
+Add defect detection (localization) / segmentation
+Collect new data
+Chase SOTA scores
+Add fancy UIs or infra
+
+# ----------------
+
+Minimal 'Done' Criteria
+
+Project is done when you have:
+ Baseline FP32 benchmarks
+ INT8 benchmarks
+ Distilled student benchmarks
+ Latency / size / recall tradeoff table
+ Short written analysis (1–2 pages)
+
+# ----------------
+
+
+
+
+
+
+
+
+
+
+
+

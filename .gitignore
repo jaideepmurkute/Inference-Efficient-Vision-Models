@@ -1,0 +1,18 @@
+# Virtual Environments
+venv/
+.venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Output directories (ignore contents, preserve directory structure if .gitkeep exists)
+# Matches 'output' folder at any level
+**/output/*
+!**/output/.gitkeep
+
+**/data/*
