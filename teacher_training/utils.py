@@ -152,6 +152,7 @@ def load_checkpoint(cfg, load_type: str, model=None, optimizer=None, scheduler=N
             return fold_idx_dict
         except Exception as e:
             print(f"Failed to load fold_idx_dict: {e}")
+            raise e
     
     ckpt_dir = os.path.join(cfg.output_dir, f'fold_{fold_id}')
 
@@ -159,7 +160,7 @@ def load_checkpoint(cfg, load_type: str, model=None, optimizer=None, scheduler=N
         assert model is not None, "Model object must be provided to load model checkpoint into."
         load_path = os.path.join(ckpt_dir, f"model_{suffix}.pth")
         try:
-            model.load_state_dict(torch.load(load_path))
+            model.load_state_dict(torch.load(load_path, map_location=cfg.device))
             return model
         except Exception as e:
             print(f"Failed to load model checkpoint at: {load_path}")
@@ -169,20 +170,22 @@ def load_checkpoint(cfg, load_type: str, model=None, optimizer=None, scheduler=N
         assert optimizer is not None, "Optimizer object must be provided to load optimizer checkpoint into."
         load_path = os.path.join(ckpt_dir, f"optimizer_{suffix}.pth")
         try:
-            optimizer.load_state_dict(torch.load(load_path))
+            optimizer.load_state_dict(torch.load(load_path, map_location=cfg.device))
             return optimizer
         except Exception as e:
             print(f"Failed to load optimizer checkpoint: {e}")
-
+            raise e
+    
     if load_type == "scheduler":
         assert scheduler is not None, "Scheduler object must be provided to load scheduler checkpoint into."
         load_path = os.path.join(ckpt_dir, f"scheduler_{suffix}.pth")
         try:
-            scheduler.load_state_dict(torch.load(load_path))
+            scheduler.load_state_dict(torch.load(load_path, map_location=cfg.device))
             return scheduler
         except Exception as e:
             print(f"Failed to load scheduler checkpoint: {e}")
-
+            raise e
+        
     if load_type == "training_log":
         load_path = os.path.join(ckpt_dir, "training_log.json")
         try:
@@ -191,7 +194,7 @@ def load_checkpoint(cfg, load_type: str, model=None, optimizer=None, scheduler=N
             return training_log
         except Exception as e:
             print(f"Failed to load training log: {e}")
-
+            raise e
     
 
 def visualize_training_log(cfg, training_log, fold_id=0):

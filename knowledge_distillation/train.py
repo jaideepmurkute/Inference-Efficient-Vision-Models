@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import time
+from tqdm import tqdm
 from .utils import calculate_accuracy
 
 def train_kd_one_epoch(student_model, teacher_model, loader, optimizer, criterion_ce, criterion_kd, alpha, temperature, device, logger):
@@ -14,7 +15,7 @@ def train_kd_one_epoch(student_model, teacher_model, loader, optimizer, criterio
     
     start_time = time.time()
     
-    for i, (images, labels) in enumerate(loader):
+    for i, (images, labels) in enumerate(tqdm(loader, desc="Training")):
         if i == 2:
             break
         images = images.to(device)
@@ -69,7 +70,7 @@ def validate(model, loader, criterion, device):
     total_samples = 0
     
     with torch.no_grad():
-        for i, (images, labels) in enumerate(loader):
+        for i, (images, labels) in enumerate(tqdm(loader, desc="Validation")):
             if i == 2:
                 break
             images = images.to(device)
