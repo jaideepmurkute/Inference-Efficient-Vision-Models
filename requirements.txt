@@ -9,3 +9,5 @@ scipy
 scikit-learn
 pandas
 tabulate
+torch-pruning
+thop

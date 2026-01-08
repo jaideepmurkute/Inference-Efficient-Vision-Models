@@ -1,0 +1,92 @@
+teacher test:
+
+(.venv) C:\Jaideep Data\Projects\Inference-Efficient-Vision-Models\teacher_training>python main.py
+2026-01-06 14:18:35,236 - kaggle_exp_1 - INFO - Configuration: {'choice': 2, 'experiment_name': 'kaggle_exp_1', 'model_name': 'vit_base_patch16_224', 'num_folds': 5, 'batch_size': 32, 'learning_rate': 0.0001, 'epochs': 3, 'num_classes': 6, 'image_size': (224, 224), 'test_ckpt_type': 'best', 'data_dir': '..\\data\\NEU-DET', 'output_root': 'output', 'device': 'cpu', 'seed': 42, 'num_workers': 2, 'cls_name_id_map': {'crazing': 0, 'inclusion': 1, 'patches': 2, 'pitted_surface': 3, 'rolled-in_scale': 4, 'scratches': 5}, 'output_dir': 'output\\kaggle_exp_1'}
+2026-01-06 14:18:35,237 - kaggle_exp_1 - INFO - Using device: cpu
+2026-01-06 14:18:35,244 - kaggle_exp_1 - INFO - Creating model: vit_base_patch16_224
+2026-01-06 14:18:36,944 - kaggle_exp_1 - INFO - Starting Testing...
+2026-01-06 14:18:36,946 - kaggle_exp_1 - INFO - Evaluating Fold 0 Teacher on Test Set
+  0%|                                                                                                                               | 0/12 [00:00<?, ?it/s]C:\Jaideep Data\Projects\Inference-Efficient-Vision-Models\.venv\Lib\site-packages\torch\utils\data\dataloader.py:668: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [01:44<00:00,  8.74s/it]
+2026-01-06 14:20:22,881 - kaggle_exp_1 - INFO - Test Accuracy: 0.9944
+2026-01-06 14:20:22,881 - kaggle_exp_1 - INFO - Inference Time per Batch/Sample proxy: 291.3696 ms
+2026-01-06 14:20:22,883 - kaggle_exp_1 - INFO - Fold 0 Test Accuracy: 0.9944
+2026-01-06 14:20:22,883 - kaggle_exp_1 - INFO - Evaluating Fold 1 Teacher on Test Set
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [02:14<00:00, 11.23s/it]
+2026-01-06 14:22:40,310 - kaggle_exp_1 - INFO - Test Accuracy: 0.9944
+2026-01-06 14:22:40,313 - kaggle_exp_1 - INFO - Inference Time per Batch/Sample proxy: 374.3677 ms
+2026-01-06 14:22:40,314 - kaggle_exp_1 - INFO - Fold 1 Test Accuracy: 0.9944
+2026-01-06 14:22:40,314 - kaggle_exp_1 - INFO - Evaluating Fold 2 Teacher on Test Set
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [02:12<00:00, 11.01s/it]
+2026-01-06 14:24:54,912 - kaggle_exp_1 - INFO - Test Accuracy: 0.9944
+2026-01-06 14:24:54,912 - kaggle_exp_1 - INFO - Inference Time per Batch/Sample proxy: 366.9805 ms
+2026-01-06 14:24:54,914 - kaggle_exp_1 - INFO - Fold 2 Test Accuracy: 0.9944
+2026-01-06 14:24:54,914 - kaggle_exp_1 - INFO - Evaluating Fold 3 Teacher on Test Set
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [02:11<00:00, 10.99s/it]
+2026-01-06 14:27:09,251 - kaggle_exp_1 - INFO - Test Accuracy: 0.9944
+2026-01-06 14:27:09,251 - kaggle_exp_1 - INFO - Inference Time per Batch/Sample proxy: 366.4714 ms
+2026-01-06 14:27:09,256 - kaggle_exp_1 - INFO - Fold 3 Test Accuracy: 0.9944
+2026-01-06 14:27:09,256 - kaggle_exp_1 - INFO - Evaluating Fold 4 Teacher on Test Set
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [02:01<00:00, 10.12s/it]
+2026-01-06 14:29:12,369 - kaggle_exp_1 - INFO - Test Accuracy: 0.9944
+2026-01-06 14:29:12,369 - kaggle_exp_1 - INFO - Inference Time per Batch/Sample proxy: 337.2462 ms
+2026-01-06 14:29:12,371 - kaggle_exp_1 - INFO - Fold 4 Test Accuracy: 0.9944
+
+
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+
+student test: 
+
+(.venv) C:\Jaideep Data\Projects\Inference-Efficient-Vision-Models\knowledge_distillation>python main.py
+2026-01-06 14:01:07,407 - kaggle_kd_exp - INFO - Configuration: {'choice': 2, 'experiment_name': 'kaggle_kd_exp', 'teacher_exp_name': 'kaggle_exp_1', 'teacher_model': 'vit_base_patch16_224', 'student_model': 'vit_tiny_patch16_224', 'num_folds': 5, 'batch_size': 32, 'learning_rate': 0.0001, 'epochs': 2, 'num_classes': 6, 'image_size': (224, 224), 'test_ckpt_type': 'best', 'teacher_checkpoint': None, 'alpha': 0.5, 'temperature': 4.0, 'output_root': 'output', 'data_dir': '..\\data\\NEU-DET', 'device': 'cpu', 'seed': 42, 'num_workers': 2, 'cls_name_id_map': {'crazing': 0, 'inclusion': 1, 'patches': 2, 'pitted_surface': 3, 'rolled-in_scale': 4, 'scratches': 5}, 'output_dir': 'output\\kaggle_kd_exp'}
+2026-01-06 14:01:07,411 - kaggle_kd_exp - INFO - Using device: cpu
+2026-01-06 14:01:07,420 - kaggle_kd_exp - INFO - Starting Student Testing...
+2026-01-06 14:01:07,421 - kaggle_kd_exp - INFO - Evaluating Fold 0 Student on Test Set
+C:\Jaideep Data\Projects\Inference-Efficient-Vision-Models\.venv\Lib\site-packages\torch\utils\data\dataloader.py:668: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2026-01-06 14:01:25,671 - kaggle_kd_exp - INFO - Test Accuracy: 0.9972
+2026-01-06 14:01:25,674 - kaggle_kd_exp - INFO - Inference Time per Batch/Sample proxy: 50.1181 ms
+2026-01-06 14:01:25,675 - kaggle_kd_exp - INFO - Fold 0 Test Accuracy: 0.9972
+
+2026-01-06 14:01:25,676 - kaggle_kd_exp - INFO - Evaluating Fold 1 Student on Test Set
+2026-01-06 14:01:42,960 - kaggle_kd_exp - INFO - Test Accuracy: 0.9944
+2026-01-06 14:01:42,963 - kaggle_kd_exp - INFO - Inference Time per Batch/Sample proxy: 47.6776 ms
+2026-01-06 14:01:42,964 - kaggle_kd_exp - INFO - Fold 1 Test Accuracy: 0.9944
+
+2026-01-06 14:01:42,964 - kaggle_kd_exp - INFO - Evaluating Fold 2 Student on Test Set
+2026-01-06 14:01:59,538 - kaggle_kd_exp - INFO - Test Accuracy: 0.9972
+2026-01-06 14:01:59,538 - kaggle_kd_exp - INFO - Inference Time per Batch/Sample proxy: 45.6909 ms
+2026-01-06 14:01:59,540 - kaggle_kd_exp - INFO - Fold 2 Test Accuracy: 0.9972
+
+2026-01-06 14:01:59,540 - kaggle_kd_exp - INFO - Evaluating Fold 3 Student on Test Set
+2026-01-06 14:02:46,432 - kaggle_kd_exp - INFO - Test Accuracy: 1.0000
+2026-01-06 14:02:46,433 - kaggle_kd_exp - INFO - Inference Time per Batch/Sample proxy: 129.9021 ms
+2026-01-06 14:02:46,433 - kaggle_kd_exp - INFO - Fold 3 Test Accuracy: 1.0000
+
+2026-01-06 14:02:46,437 - kaggle_kd_exp - INFO - Evaluating Fold 4 Student on Test Set
+2026-01-06 14:03:25,677 - kaggle_kd_exp - INFO - Test Accuracy: 0.9972
+2026-01-06 14:03:25,678 - kaggle_kd_exp - INFO - Inference Time per Batch/Sample proxy: 108.1605 ms
+2026-01-06 14:03:25,681 - kaggle_kd_exp - INFO - Fold 4 Test Accuracy: 0.9972
+
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+
+pruning:
+
+
+
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+
+quantization: 
+
+
+
+# -----------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
+
+
+
+

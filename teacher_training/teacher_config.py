@@ -5,16 +5,21 @@ class TeacherConfig:
     def __init__(self, **kwargs):
         # Default configuration
         self.choice = 2 # 1: Train, 2: Test
-        self.experiment_name = "exp_1"
+        self.experiment_name = "kaggle_exp_2"
         
-        self.model_name = "vit_base_patch16_224"
-        self.batch_size = 32
-        self.learning_rate = 1e-4
-        self.epochs = 3
+        # Model Architecture
+        self.model_name = "resnet50" # "vit_tiny_patch16_224"
+        self.use_timm = False # Flag to switch between timm and torchvision
+        # self.model_name = "vit_tiny_patch16_224" # OLD ViT
         self.num_classes = 6
+        self.pretrained = True
+        self.num_folds = 5
+        
+        self.batch_size = 64
+        self.learning_rate = 1e-4
+        self.epochs = 2
         self.image_size = (224, 224)
         self.test_ckpt_type = "best" # 'best' or 'last'
-        self.num_folds = 2
         
         self.data_dir = os.path.join("..", "data", "NEU-DET")
         self.output_root = "output"

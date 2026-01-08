@@ -62,8 +62,9 @@ class UnstructuredPruningEngine:
             correct = 0
             total = 0
             
-            pbar = tqdm(train_loader, desc=f"Fine-tuning Epoch {epoch+1}/{epochs}")
-            for images, labels in pbar:
+            for i, (images, labels) in enumerate(tqdm(train_loader)):
+                # if i == 2:
+                #     break
                 images, labels = images.to(self.device), labels.to(self.device)
                 
                 optimizer.zero_grad()
@@ -141,7 +142,9 @@ class UnstructuredPruningEngine:
         total = 0
         model.eval()
         with torch.no_grad():
-            for images, labels in loader:
+            for i, (images, labels) in enumerate(tqdm(loader)):
+                # if i == 2:
+                #     break
                 images, labels = images.to(self.device), labels.to(self.device)
                 outputs = model(images)
                 _, predicted = torch.max(outputs.data, 1)

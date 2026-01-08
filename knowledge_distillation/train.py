@@ -15,7 +15,7 @@ def train_kd_one_epoch(student_model, teacher_model, loader, optimizer, criterio
     
     start_time = time.time()
     
-    for i, (images, labels) in enumerate(tqdm(loader, desc="Training")):
+    for i, (images, labels) in enumerate(tqdm(loader)):
         if i == 2:
             break
         images = images.to(device)
@@ -54,8 +54,8 @@ def train_kd_one_epoch(student_model, teacher_model, loader, optimizer, criterio
         running_corrects += (pred == labels).sum().item()
         total_samples += images.size(0)
         
-        if (i + 1) % 10 == 0:
-            logger.info(f"Step [{i+1}/{len(loader)}], Loss: {loss.item():.4f} (CE: {loss_ce.item():.4f}, KD: {loss_kd.item():.4f})")
+        # if (i + 1) % 10 == 0:
+        #     logger.info(f"Step [{i+1}/{len(loader)}], Loss: {loss.item():.4f} (CE: {loss_ce.item():.4f}, KD: {loss_kd.item():.4f})")
             
     epoch_loss = running_loss / total_samples
     epoch_acc = running_corrects / total_samples
@@ -70,7 +70,7 @@ def validate(model, loader, criterion, device):
     total_samples = 0
     
     with torch.no_grad():
-        for i, (images, labels) in enumerate(tqdm(loader, desc="Validation")):
+        for i, (images, labels) in enumerate(tqdm(loader)):
             if i == 2:
                 break
             images = images.to(device)
@@ -96,7 +96,9 @@ def test(model, loader, device, logger):
     start_time = time.time()
     
     with torch.no_grad():
-        for images, labels in loader:
+        for i, (images, labels) in enumerate(tqdm(loader)):
+            if i == 2:
+                break
             images = images.to(device)
             labels = labels.to(device)
             

@@ -4,11 +4,16 @@ import torch
 class QuantConfig:
     def __init__(self, **kwargs):
         # Default configuration
-        self.experiment_name = "default_quant_exp"
+        self.experiment_name = "test_quant_exp"
         
-        self.model_type = "student" # 'teacher' or 'student'
-        self.student_model = "vit_tiny_patch16_224"
-        self.teacher_model = "vit_base_patch16_224"
+        self.model_type = "pruned" # 'teacher', 'student', or 'pruned'
+        self.student_model = "resnet18" # "vit_tiny_patch16_224"
+        self.teacher_model = "resnet50" # "vit_base_patch16_224"
+        
+        # self.pruned_model_name = "resnet18" # Architecture of the pruned model
+        self.pruned_model_name = "test" # Architecture of the pruned model
+        
+        self.use_timm = False
         self.num_classes = 6
         self.image_size = (224, 224)
         
@@ -17,8 +22,9 @@ class QuantConfig:
         self.fold_id = 0 # Fold to use for evaluation
         
         # Paths to experimental outputs
-        self.teacher_exp_path = os.path.join("..", "teacher_training", "output", "exp_1")
-        self.student_exp_path = os.path.join("..", "knowledge_distillation", "output", "default_kd_exp")
+        self.teacher_exp_path = os.path.join("..", "teacher_training", "output", "kaggle_exp_2")
+        self.student_exp_path = os.path.join("..", "knowledge_distillation", "output", "kaggle_kd_exp_2")
+        self.pruning_exp_path = os.path.join("..", "pruning", "output", "test")
         
         self.output_root = "output"
         

@@ -17,6 +17,11 @@ class QuantizationEngine:
         Running multiple times to get a stable estimate.
         """
         model.eval()
+        # Auto-cast input to match model dtype (important for FP16)
+        param_dtype = next(model.parameters()).dtype
+        if input_dummy.dtype != param_dtype:
+            input_dummy = input_dummy.to(dtype=param_dtype)
+
         with torch.no_grad():
             # Warmup
             for _ in range(10):
@@ -38,10 +43,20 @@ class QuantizationEngine:
         correct = 0
         total = 0
         
+        # Check model dtype
+        try:
+            param_dtype = next(model.parameters()).dtype
+        except StopIteration:
+            param_dtype = torch.float32
+
         with torch.no_grad():
             for images, labels in tqdm(data_loader, desc="Evaluating Accuracy"):
                 images = images.to(device)
                 labels = labels.to(device)
+                
+                # Cast Input if model is FP16
+                if param_dtype == torch.float16:
+                    images = images.half()
                 
                 outputs = model(images)
                 _, predicted = torch.max(outputs.data, 1)
@@ -52,17 +67,27 @@ class QuantizationEngine:
 
     def dynamic_quantize(self, model):
         """
-        Applies Dynamic Quantization to the model.
-        Quantizes Linear and LSTM layers to INT8.
+        Applies Dynamic Quantization (Weights=INT8, Activations=INT8 dynamically).
         """
-        self.logger.info("Applying Dynamic Quantization...")
-        
+        self.logger.info("Applying Dynamic Quantization (INT8)...")
+        # Need to deepcopy to avoid modifying baseline if passed as ref?
+        # quantize_dynamic creates a new module structure.
         quantized_model = torch.quantization.quantize_dynamic(
             model, 
             {torch.nn.Linear},  # Only linear layers are dynamically quantized by default for floats
             dtype=torch.qint8
         )
         return quantized_model
+
+    def dynamic_quantize_fp16(self, model):
+        """
+        Applies Native FP16 Cast.
+        """
+        self.logger.info("Casting model to FP16 (Native)...")
+        import copy
+        model_fp16 = copy.deepcopy(model)
+        model_fp16.half()
+        return model_fp16
 
     def static_quantize(self, model, calibration_loader, backend='fbgemm'):
         """
