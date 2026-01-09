@@ -1,18 +1,19 @@
-# Virtual Environments
+# virtual environments
 venv/
 .venv/
 env/
 .env
 
-# Python Cache
+# cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Output directories (ignore contents, preserve directory structure if .gitkeep exists)
-# Matches 'output' folder at any level
+# model/experiment output dirs - keep structure, dont sync contents
 **/output/*
 !**/output/.gitkeep
 
+# data dirs - keep structure, dont sync contents 
 **/data/*
+!**/data/.gitkeep
