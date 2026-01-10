@@ -56,9 +56,9 @@ Performance comparison across the optimization pipeline.
 | Model Stage | Model | Params (M) | Size (MB) | Accuracy | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Teacher** | ResNet50 | ~25.5 | ~100 | ~99.9% | Baseline |
-| **Distilled** | ResNet18 | 11.7 | ~45 | 100% |  |
-| **Pruned** | ResNet18 | 9.02 | ~36 | 99.72% | ~20% Sparsity |
-| **Quantized (FP16 Casting)** | ResNet18 | 9.02 | 18.11 | 99.72% | |
+| **Distilled Student** | ResNet18 | 11.7 | ~45 | 100% |  |
+| **Distilled + Pruned Student** | ResNet18 | 9.02 | ~36 | 99.72% | ~20% Sparsity |
+| **Distilled + Pruned Quantized Student (FP16 Casting)** | ResNet18 | 9.02 | 18.11 | 99.72% | |
 | **Quantized (INT8)**| ResNet18 | 9.02 | **9.06** | 98.88% | **>10x Compression vs Teacher** |
 
 *See `REPORT.md` for detailed metrics per fold.*
